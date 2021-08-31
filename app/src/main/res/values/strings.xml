@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">TaskApp_Happy shopping app</string>
+    <string name="loading">Loading...</string>
+    <string name="email">Email</string>
+    <string name="email_helper">Enter your email</string>
+    <string name="password_place_holder">Entert your password</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="signUp">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="welcome">Welcome</string>
+    <string name="log_in_to_continue">Log in to continue</string>
+    <string name="forgotten_password">Forgotten Password?</string>
+    <string name="invalidEmail">please type an valid email</string>
+    <string name="wrongPassword">Wrong Password</string>
+    <string name="invalidPassword">please enter valid password</string>
+    <string name="wrongEmail">Wrong email address</string>
+    <string name="emailTestVal">user@user.org</string>
+    <string name="passwordTestVal">123456789</string>
+    <string name="delete_item">deleteItem</string>
+    <string name="like_item">Like</string>
+    <string name="ItemName">itemName</string>
+    <string name="homePage">Home Page</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="deletConfirmation">Delete Confirmation</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="deletConfirmationMessag">"Do you want to delete the "</string>
+</resources>

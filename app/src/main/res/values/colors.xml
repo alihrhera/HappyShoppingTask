@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="kSColor">#FFF3A1</color>
+    <color name="kMainColor">#993D90</color>
+    <color name="kOpenGray">#BDBDBD</color>
+    <color name="kDarkGray">#626262</color>
+</resources>
