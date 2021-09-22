@@ -10,7 +10,6 @@ import com.taskapp.happyshoppingapp.databinding.ActivityMainBinding
 import com.taskapp.happyshoppingapp.ui.fragment.home.HomeViewModel
 import com.taskapp.happyshoppingapp.ui.fragment.login.LoginFragment
 import com.taskapp.happyshoppingapp.ui.fragment.login.LoginViewModel
-import com.taskapp.happyshoppingapp.util.AppDialogs
 import com.taskapp.happyshoppingapp.util.AppStatus
 
 class MainActivity : AppCompatActivity() {
@@ -21,8 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppStatus.Instance.init(this)
-        AppDialogs.Instance.init(this)
+        AppStatus.init(this)
 
         _bind = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

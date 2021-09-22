@@ -34,4 +34,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="deletConfirmationMessag">"Do you want to delete the "</string>
+    <string name="erro_title">Some Error</string>
 </resources>

@@ -3,47 +3,58 @@ package com.taskapp.happyshoppingapp.ui.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.taskapp.happyshoppingapp.R
-import com.taskapp.happyshoppingapp.data.models.Item
-import com.taskapp.happyshoppingapp.data.models.OnItemClick
+import com.taskapp.happyshoppingapp.data.models.app.ProductItem
+import com.taskapp.happyshoppingapp.data.call_back.OnItemClick
 import com.taskapp.happyshoppingapp.databinding.RowItemBinding
 
-class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemHolder>() {
-    private var itemList: MutableList<Item> = ArrayList()
-    private lateinit var onItemClick: OnItemClick
-    private lateinit var onDeleteClick: OnItemClick
-    private lateinit var onLikeClick: OnItemClick
+class ItemAdapter :
+    ListAdapter<ProductItem, ItemAdapter.ItemHolder>(
+        NotificationDiffCallback()
+    ) {
 
+    class NotificationDiffCallback : DiffUtil.ItemCallback<ProductItem>() {
+        override fun areItemsTheSame(
+            oldItem: ProductItem,
+            newItem: ProductItem
+        ): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-    fun setOnItemClick(onItemClick: OnItemClick) {
-        this.onItemClick = onItemClick
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(
+            oldItem: ProductItem,
+            newItem: ProductItem
+        ): Boolean {
+
+            return oldItem == newItem
+
+        }
     }
 
-    fun setOnDeleteClick(onDelete: OnItemClick) {
-        this.onDeleteClick = onDelete
-    }
 
-    fun setOnLikeClick(onLike: OnItemClick) {
-        this.onLikeClick = onLike
-    }
+    private var itemList: MutableList<ProductItem> = ArrayList()
+    lateinit var onItemClick: OnItemClick
+    lateinit var onDeleteClick: OnItemClick
+    lateinit var onLikeClick: OnItemClick
 
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setDataSource(itemList: List<Item>) {
+    fun setDataSource(itemList: List<ProductItem>) {
         this.itemList.clear()
         this.itemList.addAll(itemList)
-        notifyDataSetChanged()
+        submitList(itemList)
     }
 
-    fun deleteItem(item: Item) {
+    fun deleteItem(item: ProductItem) {
         itemList.remove(item)
-        notifyDataSetChanged()
-
+        submitList(itemList)
     }
 
-    fun update(item: Item) {
+    fun update(item: ProductItem) {
         notifyItemChanged(itemList.indexOf(item))
     }
 
@@ -58,7 +69,7 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemHolder>() {
         holder.row.itemName.text = item.name
         holder.row.itemPrice.text = ("EGP ${item.price}")
 
-        Picasso.get().load(item.image ?: "test")
+        Picasso.get().load(item.image)
             .centerCrop().fit()
             .error(R.drawable.item_place_holder)
             .into(holder.row.itemImage)

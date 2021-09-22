@@ -1,11 +1,11 @@
-package com.taskapp.happyshoppingapp.data.network
+package com.taskapp.happyshoppingapp.data.di
 
-import com.taskapp.happyshoppingapp.data.models.ProductCallResponse
-import com.taskapp.happyshoppingapp.data.models.UserCallResponse
+import com.taskapp.happyshoppingapp.data.models.call_response.ProductCallResponse
+import com.taskapp.happyshoppingapp.data.models.call_response.UserCallResponse
 import retrofit2.Call
 import retrofit2.http.*
 
-interface ApiInterFace {
+interface RetrofitApiServiceInterface {
 
 
     @Headers("Accept: application/json")
@@ -18,6 +18,8 @@ interface ApiInterFace {
         "Accept: application/json",
         "Content-Type: application/x-www-form-urlencoded"
     )
+
+
     @POST("login")
     fun login(
         @Field("email") email: String,

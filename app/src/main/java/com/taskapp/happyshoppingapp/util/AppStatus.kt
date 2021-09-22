@@ -9,15 +9,14 @@ import com.taskapp.happyshoppingapp.R
 
 /**
  *   This Class For Change App Method To
- *   **[AppStatus.Instance.loading]**
+ *   **[AppStatus.loading]**
  *   Or
- *   **[AppStatus.Instance.normal]**
+ *   **[AppStatus.normal]**
  * */
 
-class AppStatus {
+object AppStatus {
 
 
-    object Instance {
         private lateinit var loadingDialog: Dialog
 
         /**
@@ -28,7 +27,7 @@ class AppStatus {
                 override fun onCreate(savedInstanceState: Bundle?) {
                     super.onCreate(savedInstanceState)
                     setContentView(R.layout.dialog_loading)
-                    window!!.setLayout(
+                    window?.setLayout(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
                     )
@@ -40,7 +39,7 @@ class AppStatus {
         /**
          * Will Call This while App Is Loading Data In Background
          * will block the main screen by calling the dialog
-         * **[AppStatus.Instance.loadingDialog]**
+         * **[AppStatus.loadingDialog]**
          * where it Cannot be manually canceled
          * */
         fun loading() {
@@ -59,4 +58,3 @@ class AppStatus {
     }
 
 
-}

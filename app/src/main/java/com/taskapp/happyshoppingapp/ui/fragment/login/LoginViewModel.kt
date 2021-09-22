@@ -1,25 +1,38 @@
 package com.taskapp.happyshoppingapp.ui.fragment.login
 
+import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.taskapp.happyshoppingapp.data.models.CredentialStatus
+import com.taskapp.happyshoppingapp.data.enums.CredentialStatus
 import android.text.TextUtils
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.taskapp.happyshoppingapp.data.models.LoginStatus
-import com.taskapp.happyshoppingapp.data.models.UserCallResponse
-import com.taskapp.happyshoppingapp.data.network.ApiClient
+import com.taskapp.happyshoppingapp.ApplicationCtx
+import com.taskapp.happyshoppingapp.data.di.RetrofitApiServiceInterface
+import com.taskapp.happyshoppingapp.data.enums.LoginStatus
+import com.taskapp.happyshoppingapp.data.models.call_response.UserCallResponse
 import com.taskapp.happyshoppingapp.util.AppStatus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
+private const val TAG = "LoginViewModel"
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
+
+    @Inject
+     lateinit var apiInterFace: RetrofitApiServiceInterface
+
     private val emailValidate = MutableLiveData<CredentialStatus>()
     private val passwordValidate = MutableLiveData<CredentialStatus>()
     private val loginStatus = MutableLiveData<LoginStatus>()
+
+    init {
+       (application as ApplicationCtx).getRetrofitComponent().inject(this)
+
+    }
 
 
     fun login(email: String?, password: String?) {
@@ -35,49 +48,51 @@ class LoginViewModel : ViewModel() {
         }
         passwordValidate.postValue(CredentialStatus.VALID)
 
-        AppStatus.Instance.loading()
-        ApiClient.Instance.login(email!!, password!!).enqueue(object :
-            Callback<UserCallResponse> {
-            override fun onResponse(
-                call: Call<UserCallResponse>,
-                response: Response<UserCallResponse>
-            ) {
-                AppStatus.Instance.normal()
+        AppStatus.loading()
+        apiInterFace.login(email!!, password!!)
+            .enqueue(object :
+                Callback<UserCallResponse> {
+                override fun onResponse(
+                    call: Call<UserCallResponse>,
+                    response: Response<UserCallResponse>
+                ) {
+                    AppStatus.normal()
 
-                when {
-                    response.code() == 200 -> {
-                        val body = response.body()
-                        loginStatus.postValue(LoginStatus.SUCCESS)
-                        ApiClient.Instance.USER_TOKEN=body!!.token
+                    when {
+                        response.code() == 200 -> {
+                            val body = response.body()
+                            loginStatus.postValue(LoginStatus.SUCCESS)
+//                            ApiClient.Instance.USER_TOKEN=body!!.token
+                        }
+                        response.code() == 422 -> {
+                            Log.e(
+                                TAG,
+                                "onResponse login : ${response.errorBody().toString()} "
+                            )
+                            loginStatus.postValue(LoginStatus.FAIL)
+                            emailValidate.postValue(CredentialStatus.WRONG)
+                        }
+                        response.code() == 401 -> {
+                            Log.e(
+                                TAG,
+                                "onResponse login : ${response.errorBody().toString()} "
+                            )
+                            passwordValidate.postValue(CredentialStatus.WRONG)
+                        }
+                        else -> {
+
+                        }
                     }
-                    response.code() == 422 -> {
-                        Log.e(
-                            TAG,
-                            "onResponse login : ${response.errorBody().toString()} "
-                        )
-                        loginStatus.postValue(LoginStatus.FAIL)
-                        emailValidate.postValue(CredentialStatus.WRONG)
-                    }
-                    response.code() == 401 -> {
-                        Log.e(
-                            TAG,
-                            "onResponse login : ${response.errorBody().toString()} "
-                        )
-                        passwordValidate.postValue(CredentialStatus.WRONG)
-                    }
+
                 }
 
-            }
+                override fun onFailure(call: Call<UserCallResponse>, t: Throwable) {
+                    AppStatus.normal()
+                    Log.e(TAG, "onFailure: ${call.request().body()}+ Error :- ${t.message}")
 
-            override fun onFailure(call: Call<UserCallResponse>, t: Throwable) {
-                AppStatus.Instance.normal()
-                Log.e(TAG, "onFailure: ${call.request().body()}+ Error :- ${t.message}")
-
-            }
-        })
+                }
+            })
     }
-
-    private val TAG = "LoginViewModel"
 
 
     fun emailValidateLiveData(): LiveData<CredentialStatus> {

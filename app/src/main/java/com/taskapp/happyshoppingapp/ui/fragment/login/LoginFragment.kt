@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.taskapp.happyshoppingapp.data.models.CredentialStatus
+import com.taskapp.happyshoppingapp.data.enums.CredentialStatus
 import com.taskapp.happyshoppingapp.R
-import com.taskapp.happyshoppingapp.data.models.LoginStatus
+import com.taskapp.happyshoppingapp.data.enums.LoginStatus
 import com.taskapp.happyshoppingapp.databinding.FragmentLoginBinding
 import com.taskapp.happyshoppingapp.ui.MainActivity
 import com.taskapp.happyshoppingapp.ui.fragment.home.HomeFragment

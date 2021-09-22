@@ -1,7 +1,6 @@
-package com.taskapp.happyshoppingapp.data.models
+package com.taskapp.happyshoppingapp.data.models.call_response
 
 import com.google.gson.annotations.SerializedName
-import org.json.JSONObject
 
 data class UserCallResponse(
     @SerializedName("message") val message: String,

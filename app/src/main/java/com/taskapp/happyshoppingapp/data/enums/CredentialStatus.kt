@@ -1,4 +1,4 @@
-package com.taskapp.happyshoppingapp.data.models
+package com.taskapp.happyshoppingapp.data.enums
 /**
  * To determine the correctness of the data for the entry process
  *  [CredentialStatus.VALID] main the data is good to Send

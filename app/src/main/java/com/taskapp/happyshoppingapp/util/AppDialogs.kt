@@ -1,47 +1,50 @@
 package com.taskapp.happyshoppingapp.util
 
-import android.app.Activity
 import android.app.AlertDialog
+import androidx.fragment.app.FragmentActivity
 import com.taskapp.happyshoppingapp.R
-import com.taskapp.happyshoppingapp.data.models.Item
-import com.taskapp.happyshoppingapp.data.models.OnItemClick
+import com.taskapp.happyshoppingapp.data.call_back.OnItemClick
 
 /**
  * AppDialogs is class for contain any dialog will show in app
  * */
-class AppDialogs {
 
 
-    object Instance {
-        private lateinit var askConfirmation: AlertDialog.Builder
+/**
+ * show  Error  dialog
+ */
+fun showErrorDialog(activity: FragmentActivity, title: String? = null, errorMessage: String) {
 
-        /**
-         * Init the Dialog that need an Activity to show on It
-         * */
-        fun init(act: Activity) {
-            askConfirmation = AlertDialog.Builder(act)
-            askConfirmation.setTitle(act.getString(R.string.deletConfirmation))
-            askConfirmation.setNegativeButton(R.string.no, null)
-
-        }
-
-
-        /**
-         * show  Confirmation dialog to be sure that user didn't delete item by mistake
-         */
-        fun askForConfirmation(text: String, onItemClick: OnItemClick) {
-            askConfirmation.setPositiveButton(
-                R.string.yes
-            ) { _, _ ->
-                onItemClick.onClick("")
-            }
-
-            askConfirmation.setMessage(text)
-            askConfirmation.show()
-
-        }
-
-    }
-
+    val askConfirmation = AlertDialog.Builder(activity)
+    askConfirmation.setTitle(title ?: activity.getString(R.string.erro_title))
+    askConfirmation.setNegativeButton(R.string.no, null)
+    askConfirmation.setMessage(errorMessage)
+    askConfirmation.show()
 
 }
+
+
+/**
+ * show  Confirmation dialog to be sure that user didn't delete item by mistake
+ */
+fun askForConfirmation(
+    activity: FragmentActivity,
+    title: String? = null,
+    message: String,
+    onItemClick: OnItemClick
+) {
+    val askConfirmation = AlertDialog.Builder(activity)
+    askConfirmation.setTitle(title)
+    askConfirmation.setNegativeButton(R.string.no, null)
+    askConfirmation.setPositiveButton(
+        R.string.yes
+    ) { _, _ ->
+        onItemClick.onClick("")
+    }
+    askConfirmation.setTitle(title ?: activity.getString(R.string.deletConfirmation))
+
+    askConfirmation.setMessage(message)
+    askConfirmation.show()
+
+}
+
